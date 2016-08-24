@@ -2,13 +2,8 @@
   "name": "amp-on-fire",
   "version": "0.1.0",
   "description": "Accelerated Mobile Pages on Firebase",
-  "main": "./server/index.js",
-  "engines": {
-    "node": ">=5.4.1"
-  },
   "scripts": {
-    "start": "node ./server/index.js",
-    "start-prod": "NODE_ENV=production npm start",
+    "start": "firebase serve",
     "test": "./node_modules/mocha/bin/mocha ./test/"
   },
   "repository": {
@@ -21,10 +16,6 @@
     "url": "https://github.com/davideicardi/amp-on-fire/issues"
   },
   "dependencies": {
-    "body-parser": "^1.14.1",
-    "express": "^4.13.3",
-    "serve-static": "^1.10.0",
-    "vash": "^0.11.0"
   },
   "devDependencies": {
     "mocha": "^2.3.4"
