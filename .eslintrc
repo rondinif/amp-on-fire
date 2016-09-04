@@ -15,8 +15,8 @@
       "no-console": "off"
     },
     "env": {
-        "es6": false,
-        "node": false,
+        "es6": true,
+        "node": true,
         "mocha": true
     },
     "extends": "eslint:recommended"

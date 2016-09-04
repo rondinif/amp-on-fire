@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "description": "Accelerated Mobile Pages on Firebase",
   "scripts": {
-    "start": "firebase serve",
+    "start": "polymer serve",
+    "build": "polymer build",
+    "deploy": "firebase deploy",
     "test": "./node_modules/mocha/bin/mocha ./test/"
   },
   "repository": {
@@ -15,8 +17,7 @@
   "bugs": {
     "url": "https://github.com/davideicardi/amp-on-fire/issues"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "mocha": "^2.3.4"
   }
