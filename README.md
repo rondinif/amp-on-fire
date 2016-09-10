@@ -13,6 +13,11 @@ Built using Polymer App Toolbox and Firebase.
 - npm install -g polymer-cli
 - npm install -g firebase-tools
 
+### Install dependencies
+
+    npm install
+    bower install
+
 ### Start the development server
 
 This command serves the app at `http://localhost:8080` and provides basic URL
@@ -55,6 +60,8 @@ browsers currently installed on your machine.
     polymer test
 
 ### Deploy
+
+Deploy to firebase hosting.
 
     firebase login # first time only
     firebase deploy

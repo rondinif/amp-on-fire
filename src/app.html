@@ -10,6 +10,12 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
+
+
 <link rel="import" href="icons.html">
 
 <dom-module id="amp-on-fire-app">
@@ -53,6 +59,20 @@
       }
     </style>
 
+    <firebase-app
+      name="aofweb"
+      auth-domain="amp-on-fire.firebaseapp.com"
+      database-url="https://amp-on-fire.firebaseio.com"
+      api-key="AIzaSyDoMoSg633PvCsVr47ESDxqWnp9EakdrDI"
+      storageBucket="amp-on-fire.appspot.com">
+    </firebase-app>
+    <firebase-auth
+      app-name="aofweb"
+      id="auth"
+      user="{{authUser}}"
+      provider="google">
+    </firebase-auth>
+
     <app-location route="{{route}}"></app-location>
     <app-route
         route="{{route}}"
@@ -65,7 +85,7 @@
       <app-drawer>
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="dashboard" href="/dashboard">Dashboard</a>
+          <a name="dashboard" href="/">Dashboard</a>
           <a name="view2" href="/view2">View Two</a>
           <a name="view3" href="/view3">View Three</a>
         </iron-selector>
@@ -78,6 +98,9 @@
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
             <div main-title>amp-on-fire</div>
+            <paper-button id="btnLogin" hidden$="[[authUser]]">LOGIN</paper-button>
+            <paper-button id="btnLogout" hidden$="[[!authUser]]">LOGOUT</paper-button>
+            <span hidden$="[[!authUser]]">[[authUser.displayName]]</span>
           </app-toolbar>
         </app-header>
 
@@ -107,6 +130,12 @@
         }
       },
 
+      listeners: {
+        'btnLogin.tap': '_login',
+        'btnLogout.tap': '_logout',
+        'auth.error': '_authError'
+      },
+
       observers: [
         '_routePageChanged(routeData.page)'
       ],
@@ -123,7 +152,20 @@
 
       _showPage404: function() {
         this.page = 'view404';
+      },
+
+      _login: function() {
+        this.$.auth.signInWithRedirect();
+      },
+
+      _logout: function() {
+        this.$.auth.signOut();
+      },
+
+      _authError: function(e){
+        console.log(e);
       }
+
     });
   </script>
 </dom-module>
