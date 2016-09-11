@@ -15,22 +15,22 @@
     <firebase-auth
       app-name="aofweb"
       id="auth"
-      user="{{authUser}}"
+      user="{{user}}"
       provider="google">
     </firebase-auth>
 
-    <paper-menu-button id="dropdownLogin" hidden$="[[!authUser]]" horizontal-align="right" no-overlap="true">
-      <img src$="[[_profilePhoto(authUser)]]"
+    <paper-menu-button id="dropdownLogin" hidden$="[[!user]]" horizontal-align="right" no-overlap="true">
+      <img src$="[[_profilePhoto(user)]]"
         class="aof-img-circle dropdown-trigger"
-        alt$="[[authUser.displayName]]"
-        title$="[[authUser.displayName]]"
+        alt$="[[user.displayName]]"
+        title$="[[user.displayName]]"
         />
       <paper-menu class="dropdown-content">
         <paper-item id="btnLogout">Logout</paper-item>
       </paper-menu>
     </paper-menu-button>
 
-    <paper-button id="btnLogin" hidden$="[[authUser]]">LOGIN</paper-button>
+    <paper-button id="btnLogin" hidden$="[[user]]">LOGIN</paper-button>
   </template>
 
   <script>
@@ -38,12 +38,22 @@
       is: 'aof-login',
 
       properties: {
+        user: {
+          type: Object,
+          notify: true
+        }
       },
 
       listeners: {
         'btnLogin.tap': '_login',
         'btnLogout.tap': '_logout',
         'auth.error': '_authError'
+      },
+
+      ready: function() {
+        document.addEventListener('LoginRequest', function(e) {
+          this._login();
+        }.bind(this));
       },
 
       _profilePhoto: function(user){
