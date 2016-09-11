@@ -1,5 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
 
 <dom-module id="aof-login">
   <template>
@@ -16,15 +19,18 @@
       provider="google">
     </firebase-auth>
 
-    <span hidden$="[[!authUser]]">
+    <paper-menu-button id="dropdownLogin" hidden$="[[!authUser]]" horizontal-align="right" no-overlap="true">
       <img src$="[[_profilePhoto(authUser)]]"
-        class="aof-img-circle"
+        class="aof-img-circle dropdown-trigger"
         alt$="[[authUser.displayName]]"
         title$="[[authUser.displayName]]"
         />
-    </span>
+      <paper-menu class="dropdown-content">
+        <paper-item id="btnLogout">Logout</paper-item>
+      </paper-menu>
+    </paper-menu-button>
+
     <paper-button id="btnLogin" hidden$="[[authUser]]">LOGIN</paper-button>
-    <paper-button id="btnLogout" hidden$="[[!authUser]]">LOGOUT</paper-button>
   </template>
 
   <script>
@@ -54,6 +60,9 @@
 
       _logout: function() {
         this.$.auth.signOut();
+
+        // Hack: close the drowdown on selection
+        this.$.dropdownLogin.close();
       },
 
       _authError: function(e){

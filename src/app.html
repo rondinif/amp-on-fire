@@ -76,7 +76,7 @@
 
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
-      <app-drawer>
+      <app-drawer id="drawer" opened="{{drawerOpened}}">
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="dashboard" href="/">Dashboard</a>
@@ -132,6 +132,12 @@
 
       _routePageChanged: function(page) {
         this.page = page || 'dashboard';
+
+        // TODO: Hack: https://github.com/Polymer/app-drawer-template/issues/20
+        if (!this.$.drawer.persistent) {
+          // Close the drawer - in case the *route* change came from a link in the drawer.
+          this.drawerOpened = false;
+        }
       },
 
       _pageChanged: function(page) {
