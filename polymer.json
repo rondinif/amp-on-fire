@@ -5,7 +5,8 @@
     "src/dashboard.html",
     "src/view2.html",
     "src/view3.html",
-    "src/view404.html"
+    "src/view404.html",
+    "src/aof-login.html"
   ],
   "sourceGlobs": [
    "src/**/*",

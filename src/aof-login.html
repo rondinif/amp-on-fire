@@ -1,0 +1,65 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
+
+<dom-module id="aof-login">
+  <template>
+    <style>
+      .aof-img-circle {
+          border-radius: 50%;
+      }
+    </style>
+
+    <firebase-auth
+      app-name="aofweb"
+      id="auth"
+      user="{{authUser}}"
+      provider="google">
+    </firebase-auth>
+
+    <span hidden$="[[!authUser]]">
+      <img src$="[[_profilePhoto(authUser)]]"
+        class="aof-img-circle"
+        alt$="[[authUser.displayName]]"
+        title$="[[authUser.displayName]]"
+        />
+    </span>
+    <paper-button id="btnLogin" hidden$="[[authUser]]">LOGIN</paper-button>
+    <paper-button id="btnLogout" hidden$="[[!authUser]]">LOGOUT</paper-button>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'aof-login',
+
+      properties: {
+      },
+
+      listeners: {
+        'btnLogin.tap': '_login',
+        'btnLogout.tap': '_logout',
+        'auth.error': '_authError'
+      },
+
+      _profilePhoto: function(user){
+        if (!user) return null;
+
+        return user.photoURL + "?sz=32";
+      },
+
+      _login: function() {
+        this.$.auth.signInWithPopup()
+          .then(function(result) {
+          });
+      },
+
+      _logout: function() {
+        this.$.auth.signOut();
+      },
+
+      _authError: function(e){
+        console.log(e);
+      }
+
+    });
+  </script>
+</dom-module>
