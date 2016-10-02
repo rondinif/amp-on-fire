@@ -1,0 +1,43 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+
+<link rel="import" href="aof-page.html">
+
+<dom-module id="aof-pagelist">
+  <template>
+    <style>
+    </style>
+
+    <h2>Page list</h2>
+
+    <firebase-query
+        id="query"
+        app-name="aofweb"
+        path="/pages"
+        data="{{pages}}">
+    </firebase-query>
+
+    <template is="dom-repeat" items="{{pages}}" as="page">
+      <aof-page page-id="{{page.$key}}"></aof-page>
+    </template>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'aof-pagelist',
+
+      properties: {
+        pages:{
+          type: Object
+        }
+      },
+
+      listeners: {
+      },
+
+      ready: function() {
+      }
+    });
+  </script>
+</dom-module>

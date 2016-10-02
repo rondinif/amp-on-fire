@@ -1,0 +1,43 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+
+<dom-module id="aof-page">
+  <template>
+    <style>
+    </style>
+
+    <h3>Page: [[page.title]]</h3>
+
+    <firebase-document
+        id="document"
+        app-name="aofweb"
+        path="/pages/[[pageId]]"
+        data="{{page}}">
+    </firebase-document>
+    <paper-textarea label="write here" value="{{page.content}}"></paper-textarea>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'aof-page',
+
+      properties: {
+        pageId: {
+          type: String
+        },
+        page: {
+          type: Object
+        }
+      },
+
+      listeners: {
+      },
+
+      ready: function() {
+      },
+
+    });
+  </script>
+</dom-module>
