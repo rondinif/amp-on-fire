@@ -10,13 +10,12 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
-
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <link rel="import" href="aof-login.html">
-
-<link rel="import" href="icons.html">
 
 <dom-module id="amp-on-fire-app">
   <template>
@@ -42,19 +41,14 @@
 
       .drawer-list a {
         display: block;
-
         padding: 0 16px;
-
         text-decoration: none;
-
         color: var(--app-secondary-color);
-
         line-height: 40px;
       }
 
       .drawer-list a.iron-selected {
         color: black;
-
         font-weight: bold;
       }
     </style>
@@ -70,7 +64,7 @@
     <app-location route="{{route}}"></app-location>
     <app-route
         route="{{route}}"
-        pattern="/:page"
+        pattern="/:urlSegment"
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
@@ -78,10 +72,11 @@
       <!-- Drawer content -->
       <app-drawer id="drawer" opened="{{drawerOpened}}">
         <app-toolbar>Menu</app-toolbar>
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+        <iron-selector selected="[[urlSegment]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="dashboard" href="/">Dashboard</a>
-          <a name="view2" href="/view2">View Two</a>
-          <a name="view3" href="/view3">View Three</a>
+          <a name="pages" href="/pages">Pages</a>
+          <a name="test2" href="/test2">View Two</a>
+          <a name="test3" href="/test3">View Three</a>
         </iron-selector>
       </app-drawer>
 
@@ -98,15 +93,28 @@
         </app-header>
 
         <iron-pages
-            selected="[[page]]"
+            selected="[[urlSegment]]"
             attr-for-selected="name"
-            fallback-selection="view404"
+            fallback-selection="404"
             role="main">
-          <amp-on-fire-dashboard name="dashboard" user="[[user]]"></amp-on-fire-dashboard>
-          <amp-on-fire-view2 name="view2"></amp-on-fire-view2>
-          <amp-on-fire-view3 name="view3"></amp-on-fire-view3>
-          <amp-on-fire-view404 name="view404"></amp-on-fire-view404>
+          <aof-page-dashboard name="dashboard" user="[[user]]"></aof-page-dashboard>
+          <aof-page-pages name="pages" user="[[user]]"></aof-page-pages>
+          <aof-page-pagedetail name="pagedetail" user="[[user]]" route="[[subroute]]"></aof-page-pagedetail>
+          <aof-page-test2 name="test2"></aof-page-test2>
+          <aof-page-test3 name="test3"></aof-page-test3>
+          <aof-page-view404 name="404"></aof-page-view404>
         </iron-pages>
+
+        <template is="dom-if" if="[[!user]]">
+          <paper-card heading="Login with google to start">
+            <div class="card-content">
+              <paper-button raised on-tap="_fireLoginRequest">
+                <iron-icon icon="account-circle"></iron-icon>Login
+              </paper-button>
+            </div>
+          </paper-card>
+        </template>
+
       </app-header-layout>
     </app-drawer-layout>
   </template>
@@ -116,10 +124,9 @@
       is: 'amp-on-fire-app',
 
       properties: {
-        page: {
+        urlSegment: {
           type: String,
-          reflectToAttribute: true,
-          observer: '_pageChanged'
+          observer: '_urlSegmentChanged'
         },
         user: {
           type: Object,
@@ -132,20 +139,15 @@
       },
 
       observers: [
-        '_routePageChanged(routeData.page)'
+        '_routeUrlSegmentChanged(routeData.urlSegment)'
       ],
 
       _userChanged: function(){
-        this._routePageChanged(this.routeData.page);
+        this._routeUrlSegmentChanged(this.routeData.urlSegment);
       },
 
-      _routePageChanged: function(page) {
-        if (this.user){
-          this.page = page || 'dashboard';
-        }
-        else {
-          this.page = 'dashboard';
-        }
+      _routeUrlSegmentChanged: function(urlSegment) {
+        this.urlSegment = urlSegment || 'dashboard';
 
         // TODO: Hack: https://github.com/Polymer/app-drawer-template/issues/20
         if (!this.$.drawer.persistent) {
@@ -154,14 +156,18 @@
         }
       },
 
-      _pageChanged: function(page) {
+      _urlSegmentChanged: function(urlSegment) {
         // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl(page + '.html');
+        var resolvedPageUrl = this.resolveUrl('page-' + urlSegment + '.html');
         this.importHref(resolvedPageUrl, null, this._showPage404, true);
       },
 
       _showPage404: function() {
-        this.page = 'view404';
+        this.urlSegment = '404';
+      },
+
+      _fireLoginRequest: function(){
+        this.fire('LoginRequest', {});
       }
 
     });

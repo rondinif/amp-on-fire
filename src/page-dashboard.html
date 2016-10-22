@@ -1,0 +1,38 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+
+<link rel="import" href="aof-pagelist.html">
+<link rel="import" href="page-shared-styles.html">
+
+<dom-module id="aof-page-dashboard">
+  <template>
+    <style include="page-shared-styles">
+    </style>
+
+    <paper-card heading="Welcome card">
+      <div class="card-content">
+        <p>Ut labores minimum atomorum pro. Laudem tibique ut has.
+        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+      </div>
+      <div class="card-actions">
+        <paper-button>Dismiss</paper-button>
+      </div>
+    </paper-card>
+
+    <aof-pagelist hidden$="[[!user]]"></aof-pagelist>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'aof-page-dashboard',
+
+      properties: {
+        user: {
+          type: Object
+        }
+      }
+    });
+  </script>
+</dom-module>

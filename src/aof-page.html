@@ -1,13 +1,14 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
 
 <dom-module id="aof-page">
   <template>
     <style>
     </style>
-
-    <h3>Page: [[page.title]]</h3>
 
     <firebase-document
         id="document"
@@ -15,7 +16,13 @@
         path="/pages/[[pageId]]"
         data="{{page}}">
     </firebase-document>
-    <paper-textarea label="write here" value="{{page.content}}"></paper-textarea>
+
+    <paper-card heading="Page: [[page.title]]">
+      <div class="card-content">
+        <paper-input label="title" value="{{page.title}}"></paper-input>
+        <paper-textarea label="content" value="{{page.content}}"></paper-textarea>
+      </div>
+    </paper-card>
 
   </template>
 
@@ -26,9 +33,6 @@
       properties: {
         pageId: {
           type: String
-        },
-        page: {
-          type: Object
         }
       },
 
@@ -36,7 +40,7 @@
       },
 
       ready: function() {
-      },
+      }
 
     });
   </script>

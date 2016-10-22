@@ -1,0 +1,27 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="aof-pagelist.html">
+<link rel="import" href="page-shared-styles.html">
+
+<dom-module id="aof-page-pages">
+  <template>
+    <style include="page-shared-styles">
+    </style>
+
+    <aof-pagelist hidden$="[[!user]]"></aof-pagelist>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'aof-page-pages',
+
+      properties: {
+        user: {
+          type: Object,
+          notify: true
+        }
+      }
+    });
+  </script>
+</dom-module>

@@ -2,10 +2,12 @@
   "entrypoint": "index.html",
   "shell": "src/app.html",
   "fragments": [
-    "src/dashboard.html",
-    "src/view2.html",
-    "src/view3.html",
-    "src/view404.html",
+    "src/page-dashboard.html",
+    "src/page-pages.html",
+    "src/page-pagedetail.html",
+    "src/page-test2.html",
+    "src/page-test3.html",
+    "src/page-404.html",
     "src/aof-login.html",
     "src/aof-page.html",
     "src/aof-pagelist.html"

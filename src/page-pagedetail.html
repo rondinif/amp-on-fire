@@ -1,0 +1,39 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+
+<link rel="import" href="aof-page.html">
+<link rel="import" href="page-shared-styles.html">
+
+<dom-module id="aof-page-pagedetail">
+  <template>
+    <style include="page-shared-styles">
+    </style>
+
+    <app-route
+        route="[[route]]"
+        pattern="/:page"
+        data="{{routeData}}"></app-route>
+
+    <aof-page page-id="[[routeData.page]]"></aof-page>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'aof-page-pagedetail',
+
+      properties: {
+        user: {
+          type: Object
+        },
+        route: {
+          type: Object
+        },
+        page: {
+          type: String,
+          reflectToAttribute: true,
+        }
+      }
+    });
+  </script>
+</dom-module>

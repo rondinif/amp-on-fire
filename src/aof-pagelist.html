@@ -1,11 +1,37 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
-
-<link rel="import" href="aof-page.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-common-behavior.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="aof-pagelist">
   <template>
     <style>
+      paper-card{
+        margin-top: 10px;
+        width: 100%;
+      }
+      a paper-button,
+      a:active paper-button,
+      a:visited paper-button {
+        color: #000;
+      }
+      a{
+        text-decoration: none;
+      }
+
+      paper-fab {
+          position: fixed;
+          right: 25px;
+          bottom: 30px;
+      }
+
+      paper-icon-button[icon="delete"]{
+        float: right;
+      }
     </style>
 
     <h2>Page list</h2>
@@ -18,8 +44,21 @@
     </firebase-query>
 
     <template is="dom-repeat" items="{{pages}}" as="page">
-      <aof-page page-id="{{page.$key}}"></aof-page>
+      <div>
+        <paper-card heading="[[page.title]]">
+          <div class="card-content">
+            [[page.content]]
+          </div>
+          <div class="card-actions">
+            <a href="/pagedetail/[[page.$key]]" tabindex="-1">
+              <paper-button>Open</paper-button>
+            </a>
+            <paper-icon-button icon="delete" on-tap="_removePage"></paper-icon-button>
+          </div>
+        </paper-card>
+      </div>
     </template>
+    <paper-fab icon="add" title="Add page" on-tap="_addPage"></paper-fab>
 
   </template>
 
@@ -28,16 +67,31 @@
       is: 'aof-pagelist',
 
       properties: {
-        pages:{
-          type: Object
-        }
+
       },
 
       listeners: {
       },
 
       ready: function() {
+      },
+
+      _addPage: function(){
+        var pagesRef = this.$.query.db.ref("pages");
+
+        var newPageRef = pagesRef.push();
+        newPageRef.set({
+          content: "bla bla",
+          title: "New title"
+        });
+      },
+
+      _removePage: function(e) {
+        var page = e.model.page;
+        var pageRef = this.$.query.db.ref("pages/" + page.$key);
+        pageRef.remove();
       }
+
     });
   </script>
 </dom-module>
