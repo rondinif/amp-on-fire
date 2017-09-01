@@ -1,3 +1,5 @@
+JUST AN IDEA FOR NOW, WORK IN PROGRESS ....
+
 # amp-on-fire
 
 Accelerated Mobile Pages on Firebase.
